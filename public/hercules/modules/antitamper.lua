@@ -14,7 +14,7 @@ do
         end  
         return true  
     end  
-    if not dbgOK() then E("Tamper Detected! Reason: Debug library incomplete") return end  
+    if not dbgOK() then E("تبي تفك تشفير هههههههههههه ماتقدر لان SA | ALONE هنا") return end  
   
     local function isNative(f)  
         local i=D.getinfo(f)  
@@ -99,8 +99,7 @@ do
     local function run()  
         local ok,r=checkNativeFuncs()  
         if not ok then return false,r end  
-        ok,r=checkGlobals()  
-        if not ok then return false,r end  
+        if not checkGlobals() then return false,r end  
         for l=2,4 do  
             local i=D.getinfo(l,"f")  
             if i and i.func then  
@@ -115,10 +114,16 @@ do
   
     local ok,r=run()  
     if not ok then  
-        E("Tamper Detected! Reason: "..S(r))  
-        while true do E("Tamper Detected! Reason: "..S(r)) end  
+        -- تصفير المتغيرات الحساسة فوراً كحماية إضافية صامتة
+        _G, debug, package = nil, nil, nil  
+        
+        -- إطلاق الرسالة الخاصة بك لرفع ضغط الهاكر
+        P(E, "تبي تفك تشفير هههههههههههه ماتقدر لان SA | ALONE هنا")  
+        
+        -- إذا تم استخدام pcall لتخطي الخطأ، هذا اللوب سيتكفل بتجميد اللعبة/الأداة بالكامل (Crash/Freeze)
+        while true do end  
     end  
-end
+end  
 ]]
   return anti_tamper_code .. "\n" .. code
 end
