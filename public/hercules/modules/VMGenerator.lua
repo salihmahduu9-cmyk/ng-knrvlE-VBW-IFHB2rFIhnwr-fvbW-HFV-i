@@ -75,7 +75,7 @@ local function encode(str_param, yes)
 
     return table.concat(out)
 end
-	add("hercules,v1,alpha,__,_ = 'SA | ALONE', function()end, true, 1, 0")
+	add("SA | ALONE,v1,alpha,__,_ = 'هههههههههههه تبي تفك تشفير؟', function()end, true, 1, 0")
 	add(Parts.Variables)
 	add(Parts.Deserializer)
 	add(Parts.Wrapper_1)
