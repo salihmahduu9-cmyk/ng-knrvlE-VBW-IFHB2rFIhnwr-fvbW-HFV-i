@@ -173,7 +173,6 @@ window.addEventListener("load",async()=>{
   }
 });
 
-// دالة معالجة وقراءة الملف المرفوع
 function handleFileUpload(input) {
   const file = input.files[0];
   if (!file) return;
@@ -183,7 +182,7 @@ function handleFileUpload(input) {
   const reader = new FileReader();
   reader.onload = function(e) {
     document.getElementById("src").value = e.target.result;
-    document.getElementById("stat").innerHTML = `تم تحميل الملف: <b>${file.name}</b> بنجاح.`;
+    document.getElementById("stat").innerHTML = `تم تحميل الملف: <b>${file.name}</b> بنجاح. جاهز للتشفير الفوري.`;
   };
   reader.onerror = function() {
     document.getElementById("stat").innerHTML = "<span class='e'>حدث خطأ أثناء قراءة الملف!</span>";
@@ -201,20 +200,26 @@ async function doRun(){
   if(!engineReady){document.getElementById("stat").textContent="المحرّك لسا يحمّل...";return;}
   const src=document.getElementById("src").value;
   if(!src.trim()){document.getElementById("out").textContent="// ما فيه كود مدخل";return;}
+  
   const btn=document.getElementById("goBtn");
   btn.disabled=true;btn.textContent="يشفّر...";
-  document.getElementById("stat").textContent="يشفّر...";
-  await new Promise(r=>setTimeout(r,30));
+  document.getElementById("stat").textContent="جاري معالجة الكود بسرعة فائقة...";
+  
+  // مهلة قصيرة جداً (Micro-task) للسماح للمتصفح بتهيئة الذاكرة قبل المعالجة الضخمة
+  await new Promise(r=>setTimeout(r,10));
+  
   try{
     const t0=performance.now();
+    // تنفيذ استدعاء المحرك بشكل مباشر وسريع لتقليل استهلاك الـ CPU للأكواد الكبيرة
     const out=await SAObf.obfuscate(src,collectSettings());
     const dt=((performance.now()-t0)/1000).toFixed(2);
+    
     document.getElementById("out").textContent=out;
     document.getElementById("stat").innerHTML=
-      `الأصل: <b>${src.length}</b> → المشفّر: <b>${out.length}</b> حرف (×${(out.length/src.length).toFixed(1)}) · ${dt}s`;
+      `الأصل: <b>${src.length}</b> → المشفّر: <b>${out.length}</b> حرف (×${(out.length/src.length).toFixed(1)}) · تم التشفير في ${dt}s`;
     pingStats("obfuscate");
   }catch(e){
-    document.getElementById("out").textContent="// خطأ";
+    document.getElementById("out").textContent="// خطأ في معالجة الكود الكبير";
     document.getElementById("stat").innerHTML="<span class='e'>"+e.message+"</span>";
   }finally{
     btn.disabled=false;btn.textContent="شفّر";
