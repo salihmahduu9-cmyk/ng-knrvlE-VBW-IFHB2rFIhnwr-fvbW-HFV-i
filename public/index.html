@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SA | ALONE</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- لاتحاول تسرق الكود ماتقدر هههههههههههههههههههههههه -->
 <script src="https://cdn.jsdelivr.net/npm/fengari-web@0.1.4/dist/fengari-web.js"></script>
 <style>
+
+<!-- لاتحاول تسرق الكود ماتقدر هههههههههههههههههههههههه -->
   :root{
     --bg:#06090c;--panel:#0e151c;--panel-2:#0a1015;--line:#1b2531;
     --txt:#e6edf3;--muted:#73828f;--acid:#9fef00;--acid-dim:#6fa800;--mag:#ff2e88;--warn:#ffb02e;
@@ -52,13 +53,45 @@
   .note{margin-top:24px;font-size:13px;color:var(--muted);line-height:1.7;border-right:3px solid var(--warn);padding:6px 16px 6px 0;background:rgba(255,176,46,.04)}
   .powered{margin-top:18px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
   .powered a{color:var(--acid-dim)}
+  
+  /* تنسيق حقل رفع الملف */
+  .file-upload-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--panel-2);
+    border-top: 1px solid var(--line);
+    padding: 10px 15px;
+    gap: 10px;
+  }
+  .file-upload-btn {
+    background: var(--line);
+    color: var(--txt);
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: 0.15s;
+  }
+  .file-upload-btn:hover {
+    border-color: var(--muted);
+  }
+  .file-name-lbl {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <span class="badge">SA | ALONE</span>
-    <h1>مُشفّر <span>لوا</span></h1>
+    <h1>SA | <span>ALONE</span></h1>
     <p class="sub">discord.gg/eS4fgMazxy</p>
   </header>
 
@@ -66,6 +99,11 @@
     <div class="card">
       <div class="card-head"><div class="dots"><i></i><i></i><i></i></div><span class="t">كودك الاصلي</span></div>
       <textarea id="src" spellcheck="false">print("SA | ALONE")</textarea>
+      <div class="file-upload-wrapper">
+        <label for="fileInput" class="file-upload-btn">رفع ملف (lua / txt)</label>
+        <input type="file" id="fileInput" accept=".lua,.txt" style="display: none;" onchange="handleFileUpload(this)">
+        <span id="fileNameDisplay" class="file-name-lbl">لم يتم اختيار ملف</span>
+      </div>
     </div>
     <div class="card">
       <div class="card-head"><div class="dots"><i style="background:var(--acid-dim)"></i><i></i><i></i></div><span class="t">الكود المشفر</span></div>
@@ -136,6 +174,24 @@ window.addEventListener("load",async()=>{
     document.getElementById("stat").innerHTML="<span class='e'>فشل تحميل المحرّك: "+e.message+"</span>";
   }
 });
+
+
+function handleFileUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  
+  document.getElementById("fileNameDisplay").textContent = file.name;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById("src").value = e.target.result;
+    document.getElementById("stat").innerHTML = `تم تحميل الملف: <b>${file.name}</b> بنجاح.`;
+  };
+  reader.onerror = function() {
+    document.getElementById("stat").innerHTML = "<span class='e'>حدث خطأ أثناء قراءة الملف!</span>";
+  };
+  reader.readAsText(file);
+}
 
 function collectSettings(){
   const s=Object.assign({},FIXED);
