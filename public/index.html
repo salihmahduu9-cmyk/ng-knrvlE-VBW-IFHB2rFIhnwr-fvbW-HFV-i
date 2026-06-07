@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SA | ALONE — مُشفّر لوا</title>
+<title>SA | ALONE</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- Fengari: مفسّر لوا في المتصفح -->
+<!-- لاتحاول تسرق الكود ماتقدر هههههههههههههههههههههههه -->
 <script src="https://cdn.jsdelivr.net/npm/fengari-web@0.1.4/dist/fengari-web.js"></script>
 <style>
   :root{
@@ -57,21 +57,18 @@
 <body>
 <div class="wrap">
   <header>
-    <span class="badge">SA | ALONE · يعمل في متصفحك</span>
+    <span class="badge">SA | ALONE</span>
     <h1>مُشفّر <span>لوا</span></h1>
-    <p class="sub">يشغّل التشفير بالكامل داخل متصفحك. كودك ما يطلع من جهازك — لا سيرفر ولا رفع.</p>
+    <p class="sub">discord.gg/eS4fgMazxy</p>
   </header>
 
   <div class="grid">
     <div class="card">
-      <div class="card-head"><div class="dots"><i></i><i></i><i></i></div><span class="t">input.lua</span></div>
-      <textarea id="src" spellcheck="false">-- سكربت ترحيب
-local plr = game.Players.LocalPlayer
-local msg = "اهلا وسهلا "..plr.Name.." في السيرفر!"
-print(msg)</textarea>
+      <div class="card-head"><div class="dots"><i></i><i></i><i></i></div><span class="t">كودك الاصلي</span></div>
+      <textarea id="src" spellcheck="false">print("SA | ALONE")</textarea>
     </div>
     <div class="card">
-      <div class="card-head"><div class="dots"><i style="background:var(--acid-dim)"></i><i></i><i></i></div><span class="t">output.lua</span></div>
+      <div class="card-head"><div class="dots"><i style="background:var(--acid-dim)"></i><i></i><i></i></div><span class="t">الكود المشفر</span></div>
       <div class="out" id="out">// شغّل التشفير وبيطلع الناتج هنا...</div>
     </div>
   </div>
@@ -90,9 +87,8 @@ print(msg)</textarea>
   <div class="stat" id="stat">جاري تجهيز المحرّك...</div>
 
   <div class="note">
-    تنبيه: التعمية تصعّب الفك لكنها ليست حماية مضمونة 100%. أي كود يصل لجهاز المستخدم يمكن نظرياً استخراجه. للمنطق الحسّاس فعلاً، أبقِه على سيرفرك.
-  </div>
-  <div class="powered">© SA | ALONE · يعمل بالكامل في المتصفح<br><span style="opacity:.5;font-size:10px">built with open-source components under Apache-2.0</span></div>
+    تنبيه: الاداة مجانية بالكامل اي احد باعها لك اعرف انت انسرقت.</div>
+  <div class="powered">© SA | ALONE<br><span style="opacity:.5;font-size:10px">discord.gg/eS4fgMazxy</span></div>
 
   <div id="statsBar" style="margin-top:20px;display:flex;gap:14px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:12px">
     <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 18px;flex:1;min-width:140px">
@@ -112,7 +108,7 @@ print(msg)</textarea>
 
 <script src="/run.js"></script>
 <script>
-// كل الخيارات مفعّلة تلقائياً ما عدا bytecode و function inlining
+  
 const FIXED = {
   "settings.variable_renaming.enabled": true,
   "settings.string_encoding.enabled": true,
@@ -124,7 +120,6 @@ const FIXED = {
   "settings.compressor.enabled": true,
   "settings.WrapInFunction.enabled": true,
   "settings.watermark_enabled": true,
-  // مطفّية:
   "settings.VirtualMachine.enabled": false,
   "settings.bytecode_encoding.enabled": false,
   "settings.function_inlining.enabled": false,
@@ -136,7 +131,7 @@ window.addEventListener("load",async()=>{
   try{
     await SAObf.loadSources();
     engineReady=true;
-    document.getElementById("stat").innerHTML="<b>المحرّك جاهز.</b> الصق كودك واضغط شفّر.";
+    document.getElementById("stat").innerHTML="<b></b> الصق كودك واضغط شفّر.";
   }catch(e){
     document.getElementById("stat").innerHTML="<span class='e'>فشل تحميل المحرّك: "+e.message+"</span>";
   }
@@ -155,7 +150,6 @@ async function doRun(){
   const btn=document.getElementById("goBtn");
   btn.disabled=true;btn.textContent="يشفّر...";
   document.getElementById("stat").textContent="يشفّر...";
-  // نخلي الواجهة تتنفّس قبل العملية الثقيلة
   await new Promise(r=>setTimeout(r,30));
   try{
     const t0=performance.now();
@@ -164,7 +158,7 @@ async function doRun(){
     document.getElementById("out").textContent=out;
     document.getElementById("stat").innerHTML=
       `الأصل: <b>${src.length}</b> → المشفّر: <b>${out.length}</b> حرف (×${(out.length/src.length).toFixed(1)}) · ${dt}s`;
-    pingStats("obfuscate"); // زِد عداد التشفير
+    pingStats("obfuscate");
   }catch(e){
     document.getElementById("out").textContent="// خطأ";
     document.getElementById("stat").innerHTML="<span class='e'>"+e.message+"</span>";
@@ -182,11 +176,10 @@ function copyOut(){
 function downloadOut(){
   const blob=new Blob([document.getElementById("out").textContent],{type:"text/plain"});
   const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);a.download="obfuscated.lua";a.click();
+  a.href=URL.createObjectURL(blob);a.download="saalone sc obf.lua";a.click();
   URL.revokeObjectURL(a.href);
 }
 
-// --- الإحصائيات ---
 async function pingStats(event){
   try{
     const q = event ? ("?event="+event) : "";
@@ -200,7 +193,7 @@ async function pingStats(event){
     }
   }catch(_){}
 }
-// سجّل زيارة عند الفتح، وحدّث "النشط الآن" كل دقيقة
+  
 pingStats();
 setInterval(()=>pingStats(), 60000);
 
