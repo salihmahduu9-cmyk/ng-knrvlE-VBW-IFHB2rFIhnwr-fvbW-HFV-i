@@ -52,7 +52,7 @@
   .powered{margin-top:18px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
   .powered a{color:var(--acid-dim)}
   
-  /* تنسيق حقل رفع الملف */
+
   .file-upload-wrapper {
     display: flex;
     align-items: center;
@@ -205,12 +205,11 @@ async function doRun(){
   btn.disabled=true;btn.textContent="يشفّر...";
   document.getElementById("stat").textContent="جاري معالجة الكود بسرعة فائقة...";
   
-  // مهلة قصيرة جداً (Micro-task) للسماح للمتصفح بتهيئة الذاكرة قبل المعالجة الضخمة
   await new Promise(r=>setTimeout(r,10));
   
   try{
     const t0=performance.now();
-    // تنفيذ استدعاء المحرك بشكل مباشر وسريع لتقليل استهلاك الـ CPU للأكواد الكبيرة
+    
     const out=await SAObf.obfuscate(src,collectSettings());
     const dt=((performance.now()-t0)/1000).toFixed(2);
     
